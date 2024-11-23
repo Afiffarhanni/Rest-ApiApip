@@ -5,7 +5,7 @@ from PIL import Image
 
 app = Flask(__name__)
 
-model = load_model('model_fruit.h5')
+model = load_model('https://storage.googleapis.com/modelapip/predct/model_fruit.h5')
 
 def process_image(image):
     image = image.convert('RGB')

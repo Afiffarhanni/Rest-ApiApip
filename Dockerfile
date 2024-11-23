@@ -1,21 +1,16 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+COPY Pipfile /app/
+COPY Pipfile.lock /app/  # Optional, if you have a lock file
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libglib2.0-0 libsm6 libxrender1 libxext6
+RUN pip install pipenv
+RUN pipenv install --deploy --ignore-pipfile  # '--ignore-pipfile' ensures that Pipfile.lock is used
 
-# Install the required Python packages
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . /app/
 
-# Expose the port that the Flask app will run on
 EXPOSE 4000
+ENV PORT 4000
 
-# Run the Flask application when the container launches
-CMD ["python", "app.py"]
+CMD ["pipenv", "run", "python", "app.py"] 
