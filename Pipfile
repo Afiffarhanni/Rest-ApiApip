@@ -1,24 +1,15 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
 
-# Set the working directory in the container
-WORKDIR /app
+[packages]
+numpy = "*"
+pillow = "*"
+flask = "*"
+tensorflow = "*"
 
-# Copy Pipfile and Pipfile.lock (if you have it)
-COPY Pipfile /app/
-COPY Pipfile.lock /app/  # If you have a lock file, include this line
+[dev-packages]
 
-# Install pipenv
-RUN pip install pipenv
-
-# Install the required Python packages using Pipenv
-RUN pipenv install --deploy --ignore-pipfile
-
-# Copy the rest of the application code
-COPY . /app/
-
-# Expose the port that the Flask app will run on
-EXPOSE 4000
-
-# Run the Flask application when the container launches
-CMD ["pipenv", "run", "python", "v.py"]  # Assuming your app is in v.py
+[requires]
+python_version = "3.11"
